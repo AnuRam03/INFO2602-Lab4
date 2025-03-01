@@ -130,7 +130,15 @@ def todos_page():
 def signup_page():
   return render_template('signup.html')
 
+@app.route('/logout', methods=['GET'])
+@jwt_required()
+def logout_action():
+  flash('Logged Out')
+  response = redirect(url_for('login_page'))
+  unset_jwt_cookies(response)
+  return response
 
+# Action Routes
 @app.route('/editTodo/<id>', methods=["GET"])
 @jwt_required()
 def edit_todo_page(id):
@@ -215,16 +223,6 @@ def edit_todo_action(id):
   else:
     flash('Todo not found or unauthorized')
   return redirect(url_for('todos_page'))
-
-@app.route('/logout', methods=['GET'])
-@jwt_required()
-def logout_action():
-  flash('Logged Out')
-  response = redirect(url_for('login_page'))
-  unset_jwt_cookies(response)
-  return response
-
-# Action Routes
 
 #Task 8.3
 @app.route('/admin')
