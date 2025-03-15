@@ -106,7 +106,7 @@ def login_required(required_class):
 def login_user(username, password): #better response
   user = User.query.filter_by(username=username).first()
   if user and user.check_password(password):
-    token = create_access_token(identity=user)
+    token = create_access_token(identity=user.id)
     return token
   return None
 
